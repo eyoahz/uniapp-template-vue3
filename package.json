@@ -1,0 +1,24 @@
+{
+    "id": "jixu-chooseSeat",
+    "name": "微信小程序剧院、影院选座功能",
+    "displayName": "微信小程序剧院、影院选座功能",
+    "version": "0.0.1",
+    "description": "微信小程序剧院、影院选座功能",
+    "keywords": [
+        "uniapp",
+        "小程序",
+        "选座"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    },
+    "dependencies": {
+        "crypto-js": "^4.2.0"
+    },
+    "devDependencies": {
+        "@types/crypto-js": "^4.2.2"
+    }
+}
