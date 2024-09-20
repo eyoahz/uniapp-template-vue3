@@ -15,16 +15,18 @@ export interface Encryption {
   encrypt(plainText: string): string;
   decrypt(cipherText: string): string;
 }
+export interface EncryptionParams {
+  key: string;
+  iv: string;
+}
+
 // Define an interface for Hashing
 // 定义一个哈希算法的接口
 export interface Hashing {
   hash(data: string): string;
 }
 
-export interface EncryptionParams {
-  key: string;
-  iv: string;
-}
+
 
 // 对称加密
 class AesEncryption implements Encryption {
@@ -42,7 +44,7 @@ class AesEncryption implements Encryption {
   get getOptions() {
     return {
       mode: CTR,
-      padding: pkcs7,
+      padding: pkcs7, // PKCS7 是一种常见的填充方式，确保块加密算法输入的长度符合块大小要求
       iv: this.iv,
     };
   }
