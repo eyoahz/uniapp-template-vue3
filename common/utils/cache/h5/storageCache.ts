@@ -2,26 +2,18 @@ import { cacheCipher } from '@/common/settings/encryptionSetting';
 import { isNil } from '@/common/utils/is';
 import { Encryption, EncryptionFactory, EncryptionParams } from '@/common/utils/cipher';
 
-// uniapp 数据缓存方法接口
-export interface UniStorageKeys {
-	setItem: (key: string, data: string) => void;
-	getItem: (key: string) => string;
-	removeItem: (key: string) => void;
-	clear: () => void;
-}
-
 export interface CreateStorageParams extends EncryptionParams {
 	prefixKey: string;
-	storage: Storage | UniStorageKeys;
+	storage: Storage;
 	hasEncrypt: boolean;
-	timeout?: number | null;
+	timeout?: null | undefined | number;
 }
 
 export const createStorage = ({
 	prefixKey = '',
 	storage = sessionStorage,
 	hasEncrypt = true,
-	timeout = null,	// 默认过期时间24小时
+	timeout = null,
 	key = cacheCipher.key,
 	iv = cacheCipher.iv,
 }: CreateStorageParams) => {
@@ -37,7 +29,7 @@ export const createStorage = ({
 	})
 	
 	const WebStorage = class WebStorage {
-		private storage: Storage | UniStorageKeys;
+		private storage: Storage;
 		private prefixKey?: string;
 		private encryption: Encryption;
 		private hasEncrypt: boolean;
@@ -64,7 +56,7 @@ export const createStorage = ({
 			const stringData = JSON.stringify({
 				value,
 				time: Date.now(),
-				expire: !isNil(expire) ? Date.now() + expire! * 1000 : null,
+				expire: !isNil(expire) ? Date.now() + expire * 1000 : null,
 			})
 			const stringifyValue = this.hasEncrypt ? this.encryption.encrypt(stringData) : stringData;
 			this.storage.setItem(this.getKey(key), stringifyValue)
