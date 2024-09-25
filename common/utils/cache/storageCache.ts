@@ -100,8 +100,14 @@ export const createStorage = ({
 		 * @param {string} key
 		 * @memberof Cache
 		 */
-		remove(key: string): void {
-			this.storage.removeItem(this.getKey(key))
+		remove(key: string | Array<string>): void {
+			if(Array.isArray((key))) {
+				key.forEach(item => {
+					this.storage.removeItem(this.getKey(item))
+				})
+			} else {
+				this.storage.removeItem(this.getKey(key))
+			}
 		}
 		
 		/**
