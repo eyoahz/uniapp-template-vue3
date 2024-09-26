@@ -5,6 +5,7 @@ import { getUserInfoApi, logoutApi } from '@/common/api/user'
 interface State {
 	auth: string | null;
 	userInfo: Record<string, any> | null;
+	cacheKeys: string[];
 }
 
 const uniStorage = createUniStorage();
@@ -49,14 +50,8 @@ export const useUserStore = defineStore('user', {
 		 * @param {string} data:登录标识的值
 		 * @returns {boolean} 返回是否成功设置登录标识
 		 */
-		setAuth(data: State['auth']): boolean {
-			try{
-				this.auth = data;
-				uniStorage.set('auth', data);
-				return true
-			}catch(e){
-				return false
-			}
+		setAuth(data: State['auth']) {
+			this.auth = data;
 		},
 		/**
 		 * @pinia 获取用户信息(并存储在本地缓存)
@@ -65,7 +60,6 @@ export const useUserStore = defineStore('user', {
 			try {
 				const { data } = await getUserInfoApi();
 				this.userInfo = data;
-				uniStorage.set('userInfo', data);
 			}catch(e) {
 				console.log(e)
 			}
@@ -77,7 +71,8 @@ export const useUserStore = defineStore('user', {
 			try {
 				const { code } = await logoutApi();
 				if(code === 200) {
-					uniStorage.remove(['auth', 'userInfo']);
+					this.setAuth(null);
+					this.userInfo = null;
 					return true
 				}
 			}catch(e) {

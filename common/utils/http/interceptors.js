@@ -24,7 +24,6 @@ export const requestInterceptorRejected = (config) => { // 可使用async await 
 // 响应拦截
 export const responseInterceptorFulfilled = (response) => { /* 对响应成功做点什么 可使用async await 做异步操作*/
 	const data = response.data
-	console.log(response, 8888)
 
 	// 自定义参数
 	const custom = response.config?.custom
