@@ -5,7 +5,6 @@ import { getUserInfoApi, logoutApi } from '@/common/api/user'
 interface State {
 	auth: string | null;
 	userInfo: Record<string, any> | null;
-	cacheKeys: string[];
 }
 
 const uniStorage = createUniStorage();
