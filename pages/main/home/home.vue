@@ -3,12 +3,14 @@
 	import { LoginParamsModel } from '@/common/api/user/model';
 	import { getCaptchaApi, loginApi } from '@/common/api/user';
 	import { uploadApi, downloadApi } from '@/common/api/system';
-	// import { useAppStore } from '@/common/store/modules/app'
-	import { useUserStore } from '@/common/store/modules/user'
+	import { useAppStore } from '@/common/store/modules/app';
+	import { useUserStore } from '@/common/store/modules/user';
+	import ZyTabbar from '@/components/zy-tabbar/zy-tabbar.vue';
 	
 	import { createUniStorage } from '@/common/utils/cache'
+	import Child from './Child.vue'
 	
-	// const app = useAppStore();
+	const appStore = useAppStore();
 	const user = useUserStore();
 	
 	const uniStorage = createUniStorage();
@@ -44,14 +46,23 @@
 		}
 	}
 	
+	function handleLogout() {
+		user.logout();
+	}
+	
 	function afterRead(event: any) {
 		console.log(event.file)
 		uploadApi({ filePath: event.file[0].url, name: 'file'})
 	}
 	
 	async function download() {
-		const res = await downloadApi('https://crm-xmyc.oss-cn-beijing.aliyuncs.com/2024/09/25/d5e48c29d7844d9dae24648f12025e78.png')
-		console.log(res, 123)
+		// const res = await downloadApi('https://crm-xmyc.oss-cn-beijing.aliyuncs.com/2024/09/25/d5e48c29d7844d9dae24648f12025e78.png')
+		user.setAuth(Date.now() + '')
+		appStore.tabbarDefault = 'photo'
+	}
+	
+	function logout() {
+		console.log('退出登录')
 	}
 </script>
 
@@ -62,6 +73,7 @@
 			<uv-input v-model="loginParams.code"></uv-input>
 		</view>
 		<uv-button type="primary" text="登录" @click="handleLogin"></uv-button>
+		<uv-button type="warning" text="退出" @click="handleLogout"></uv-button>
 		
 		<uv-upload
 			name="1"
@@ -71,6 +83,20 @@
 		></uv-upload>
 		
 		<uv-button type="error" text="下载" @click="download"></uv-button>
+		
+		<Child buttonText="尼玛死了" @logout="logout">
+			<template #header>
+				头
+			</template>
+			<template #content>
+				身
+			</template>
+			<template #footer>
+				脚
+			</template>
+		</Child>
+		
+		<ZyTabbar></ZyTabbar>
 	</view>
 </template>
 
