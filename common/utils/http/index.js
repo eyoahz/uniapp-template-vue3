@@ -14,7 +14,7 @@ http.setConfig((config) => {
 		auth: true, // 是否传token
 		// loading: false // 是否使用loading
 		isReturnNativeResponse: false,	// 是否返回原始响应数据 比如：需要获取响应头时使用该属性
-		// setResponseDateField: '',		// 自定义 响应头数据获取字段 - 可以是 字符串 或 数组 例如：'header' ['data', 'result']
+		setResponseDateField: '',		// 自定义 响应头数据获取字段 - 可以是 字符串 或 数组 例如：'header' ['data', 'result']
 	}
 	// config.paramsSerializer = function() {}	// 自定义处理params参数的方法
 	return config

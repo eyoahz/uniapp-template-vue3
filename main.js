@@ -1,8 +1,10 @@
 import App from './App'
+import uvUI from '@/uni_modules/uv-ui-tools'
 
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
+Vue.use(uvUI);
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
@@ -19,7 +21,7 @@ import { setupStore } from './common/store'
 export function createApp() {
   const app = createSSRApp(App)
 	setupStore(app, Pinia.createPinia());
-	
+	app.use(uvUI);
   return {
     app,
 		Pinia, // 此处必须将 Pinia 返回

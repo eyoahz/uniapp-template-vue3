@@ -281,7 +281,7 @@
 					urls: this.lists.filter((item) => this.accept === 'image' || image(item.url || item.thumb)).map((item) => item.url || item.thumb),
 					current: findIndex,
 					fail() {
-						this.$uv.toast('预览图片失败')
+						uni.$uv.toast('预览图片失败')
 					},
 				});
 			},

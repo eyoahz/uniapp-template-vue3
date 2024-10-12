@@ -7,7 +7,7 @@ import { http } from '@/common/utils/http'
  */
 export function uploadApi(config: any) {
 	// https://uniapp.dcloud.net.cn/api/request/network-file.html#uploadfile
-	return http.upload('/system/oss/upload', config)
+	return http.upload('/system/oss/upload', { name: 'file', ...config })
 }
 
 /**
