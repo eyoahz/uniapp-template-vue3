@@ -46,7 +46,7 @@
 	const iconLoading = ref(true);
 	
 	// 初始化
-	function init(api) {
+	function init(api: Promise<any>) {
 		optionsMap.clear();
 		labelFiled.value = props.schema?.componentProps?.labelField ?? 'text';
 		valueField.value = props.schema?.componentProps?.valueField ?? 'value';
@@ -66,8 +66,8 @@
 				? [proxy.$uv.deepClone(selectOptions.value)] 
 				: [[]];
 			
-			const getOptionsMap = (data = [], column = 0) => {
-				data.forEach((item, index) => {
+			const getOptionsMap = (data: any[] = [], column = 0) => {
+				data?.forEach((item: any, index: number) => {
 					if(item.parentId == 0) column = 0;
 					optionsMap.set(String(item[valueField.value]), { ...item, column, index })
 					if(Array.isArray(item?.children) && item.children.length) {
@@ -77,7 +77,7 @@
 			}
 			getOptionsMap(selectOptions.value);
 			
-			const getDefaultValue = (data = {}, valueFieldMode = valueField.value) => {
+			const getDefaultValue = (data: Record<string, any> = {}, valueFieldMode = valueField.value) => {
 				defaultValue.value = data[valueFieldMode];
 				if(Array.isArray(data?.children) && data.children.length) {
 					getDefaultValue(data.children[0])
@@ -93,10 +93,10 @@
 	// #region 用于控制选择器的弹出与收起
 	function open() {
 		const value = props.modelValue || defaultValue.value;
-		let indexs = [];
+		let indexs: number[] = [];
 		const options = selectOptions.value;
 		
-		const getIndex = (value) => {
+		const getIndex = (value: string) => {
 			const option = optionsMap.get(value);
 			indexs.unshift(option.index ?? 0);
 			if(option.parentId != 0) getIndex(option.parentId);
@@ -104,7 +104,7 @@
 		getIndex(value);
 		
 		let defaultIndexMode = [...indexs];
-		let list = [];
+		let list: any[] = [];
 		defaultIndexMode.forEach((item, index) => {
 			if(index == 0) {
 				list.push(options);
@@ -140,7 +140,7 @@
 		const { value: list, indexs } = e;
 		let valueList = [],
 			labelList = [];
-		list.map((item, index) => {
+		list.map((item: any, index: number) => {
 			valueList.push(item[valueField.value]);
 			labelList.push(item[labelFiled.value]);
 		});
@@ -161,7 +161,7 @@
 		// value[columnIndex] 当前变化项
 		columns.value.splice(columnIndex + 1);
 		await nextTick();
-		const linkage = (currentValue) => {
+		const linkage = (currentValue: any) => {
 			if(Array.isArray(currentValue?.children)) {
 				columns.value.push(currentValue.children);
 				linkage(currentValue.children?.[0])
